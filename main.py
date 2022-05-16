@@ -1,15 +1,15 @@
-from Crawling_Finance import Crawler_Finance
+from Crawling_Finance import Crawling_Finance
 
 def test():
-    m_Crawler_Finance = Crawler_Finance()
-    m_Crawler_Finance.Search_StockandCrawling("삼성전자")
+    m_Crawling_Finance = Crawling_Finance()
+    m_Crawling_Finance.Search_StockandCrawling("삼성전자")
 
 def main():
      # 주식 관련 Crawling
-    m_Crawler_Finance = Crawler_Finance()
-    m_liStockInfo = m_Crawler_Finance.Crawling_PopularStocks()
-    m_liKospi = m_Crawler_Finance.Crawling_Kospi()
-    m_liKosdaq = m_Crawler_Finance.Crawling_Kosdaq()
+    m_Crawling_Finance = Crawling_Finance()
+    m_liStockInfo = m_Crawling_Finance.Crawling_PopularStocks()
+    m_liKospi = m_Crawling_Finance.Crawling_Kospi()
+    m_liKosdaq = m_Crawling_Finance.Crawling_Kosdaq()
 
     # 주식 출력
     try:

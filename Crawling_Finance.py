@@ -4,7 +4,7 @@ import time
 from selenium import webdriver
 from bs4 import BeautifulSoup as bf
 
-class Crawler_Finance():
+class Crawling_Finance():
     def __init__(self):
         self.GetHtml_NaverFinance()
 
@@ -71,7 +71,15 @@ class Crawler_Finance():
         driver = webdriver.Chrome(strPath + "//" + strChromedriverName)
 
         # 실행
-        driver.get('https://www.naver.com/')
+        driver.get('https://finance.naver.com/sise/')
+        Search_Input = driver.find_element_by_class_name("snb_search_text")
+        Search_Input.send_keys(self.strStockName)   # 종목 적음.
+        Search_Input.submit()                       # 검색 클릭.
+
+        driver.find_element_by_class_name("tbl_search")
+        # 셀레니움 테이블 가져오기(검색하여 구현하기.)
+
+        a = 1
         time.sleep(2)
 
 
