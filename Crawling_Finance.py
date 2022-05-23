@@ -56,7 +56,7 @@ class Crawling_Finance():
         #print(strKOSDAQ_Change)
 
     # 종목 검색
-    # return [코스닥지수, 변화율(숫자), 변화율(%)]
+    # return df(pandas)
     def Search_StockandCrawling(self, strStockName):
         # Selenium Option 설정
         Selenium_Option = webdriver.ChromeOptions()
@@ -69,17 +69,32 @@ class Crawling_Finance():
         strChromedriverName = "chromedriver.exe"
         strPath = os.getcwd()
         driver = webdriver.Chrome(strPath + "//" + strChromedriverName)
+        driver.implicitly_wait(1)
 
         # 실행
         driver.get('https://finance.naver.com/sise/')
+        driver.implicitly_wait(1)
         Search_Input = driver.find_element_by_class_name("snb_search_text")
         Search_Input.send_keys(self.strStockName)   # 종목 적음.
         Search_Input.submit()                       # 검색 클릭.
+        driver.implicitly_wait(1)
 
-        driver.find_element_by_class_name("tbl_search")
-        # 셀레니움 테이블 가져오기(검색하여 구현하기.)
+        # thead Parsing
+        table = driver.find_element_by_class_name("tbl_search")
+        thead = table.find_element_by_tag_name("thead")
+        il_thead_th = thead.find_elements_by_tag_name("th")
 
-        a = 1
-        time.sleep(2)
+        # tbody Parsing
+        tbody = table.find_element_by_tag_name("tbody")
+        li_tbody_tr = tbody.find_elements_by_tag_name("tr")
+        li_tbody_td = []
+        for i in range(len(li_tbody_tr)):
+            tbody_tr = li_tbody_tr[i]
+            li_tbody_td.append(tbody_tr.find_elements_by_tag_name("td"))
+        # li_tbody_td = [[0],[1],[2]...]
+        
+        # list 안의 데이터 .text 읽어와서 pandas 를 통해
+        # dataframe 만들기.
+
 
 
