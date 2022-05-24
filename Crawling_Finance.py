@@ -1,6 +1,7 @@
 import requests
 import os
 import time
+import pandas as pd
 from selenium import webdriver
 from bs4 import BeautifulSoup as bf
 
@@ -82,7 +83,7 @@ class Crawling_Finance():
         # thead Parsing
         table = driver.find_element_by_class_name("tbl_search")
         thead = table.find_element_by_tag_name("thead")
-        il_thead_th = thead.find_elements_by_tag_name("th")
+        li_thead_th = thead.find_elements_by_tag_name("th")
 
         # tbody Parsing
         tbody = table.find_element_by_tag_name("tbody")
@@ -90,8 +91,23 @@ class Crawling_Finance():
         li_tbody_td = []
         for i in range(len(li_tbody_tr)):
             tbody_tr = li_tbody_tr[i]
-            li_tbody_td.append(tbody_tr.find_elements_by_tag_name("td"))
-        # li_tbody_td = [[0],[1],[2]...]
+            tbody_td = tbody_tr.find_elements_by_tag_name("td")
+            li_tbody_td.append(tbody_td)
+            # li_tbody_td = [Row1[title, price..],Row2[title, price],...]
+        
+        # Create DataFrame(table)
+        df = pd.DataFrame()
+        li_data = []
+        for i in range(len(li_thead_th)):
+            for j in range(len(li_tbody_td)):
+                li_data.append(li_tbody_td[j][i].text)
+
+            a = 1
+            df[li_thead_th[i].text] = li_data
+            li_data.clear()
+            
+        # csv output
+        df.to_csv("C:\\Users\\LCH\Desktop\\test1.csv",",","NaN",encoding="utf-8-sig")
         
         # list 안의 데이터 .text 읽어와서 pandas 를 통해
         # dataframe 만들기.
