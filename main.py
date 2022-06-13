@@ -1,8 +1,10 @@
 from Crawling_Finance import Crawling_Finance
+from Crawling_News import Crawling_News
 
 def test():
-    m_Crawling_Finance = Crawling_Finance()
-    m_Crawling_Finance.Search_StockandCrawling("삼성전자")
+    m_Crawling_News = Crawling_News()
+    m_Crawling_News.Search_NaverNews("십자매")
+
 
 def main():
      # 주식 관련 Crawling
@@ -21,6 +23,8 @@ def main():
     except IndexError:
         print("list index out of range(Some list not is not sucessful crawling")
 
+    # 주식 검색
+    m_Crawling_Finance.Search_StockandCrawling("삼성전자")
 
 if __name__ == "__main__":
     #main()
