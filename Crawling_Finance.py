@@ -69,7 +69,7 @@ class Crawling_Finance():
         self.strStockName = strStockName
         strChromedriverName = "chromedriver.exe"
         strPath = os.getcwd()
-        driver = webdriver.Chrome(strPath + "//" + strChromedriverName)
+        driver = webdriver.Chrome(strPath + "\\" + strChromedriverName)
         driver.implicitly_wait(1)
 
         # Chrome Driver 실행
@@ -107,8 +107,8 @@ class Crawling_Finance():
             li_data.clear()
             
         # csv output
-        # df.to_csv("C:\\Users\\LCH\Desktop\\test1.csv",",","NaN",encoding="utf-8-sig")
-        df.to_csv("C:\\Users\\dlckd\Desktop\\test1.csv",",","NaN",encoding="utf-8-sig")
+        df.to_csv("C:\\Users\\LCH\Desktop\\test1.csv",",","NaN",encoding="utf-8-sig")
+        # df.to_csv("C:\\Users\\dlckd\Desktop\\test1.csv",",","NaN",encoding="utf-8-sig")
         
         # list 안의 데이터 .text 읽어와서 pandas 를 통해
         # dataframe 만들기.
