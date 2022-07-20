@@ -7,7 +7,8 @@ def test():
     # 뉴스 검색
     m_Crawling_News = Crawling_News()
     # day, week, month, year
-    lNews = m_Crawling_News.Search_NaverNews('코로나', 'week')
+    # Page
+    lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
    
 def main():
      # 주식 관련 Crawling

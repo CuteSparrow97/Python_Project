@@ -9,9 +9,10 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup as bf
 
 class Crawling_News():
-    def Search_NaverNews(self, strKeyWard, strPeriod):
+    def Search_NaverNews(self, strKeyWard, strPeriod, nPage):
         self.strKeyWard = strKeyWard
         self.strPeriod = strPeriod
+        self.nPage = nPage
 
         # Selenium Option 설정
         Selenium_Option = webdriver.ChromeOptions()
@@ -47,38 +48,40 @@ class Crawling_News():
         else:
             strPeriod_Setting = "1년"
 
+        btnPeriod = driver.find_element_by_link_text(strPeriod_Setting)
+        btnPeriod.click()
+        driver.implicitly_wait(3)
+        
         # 네이버 뉴스 URL Parsing
+        Pages_URL = []
         naver_urls=[]
-        # 네이버 기사가 있는 css selector 모아오기
-        a = driver.find_elements(By.CSS_SELECTOR,'a.info')
-        # 위에서 생성한 css selector list 하나씩 클릭하여 본문 url 얻기
-        for i in a:
-            i.click()
+        for i in range(self.nPage):
+            # 네이버 기사가 있는 css selector 모아오기
+            News = driver.find_elements(By.CSS_SELECTOR,'a.info')
+            # 위에서 생성한 css selector list 하나씩 클릭하여 본문 url 얻기
+            for NewsURL in News:
+                NewsURL.click()
+                # 현재 탭에 접근
+                driver.switch_to.window(driver.window_handles[1])
+                time.sleep(3) #대기시간 변경 가능
+                # 네이버 뉴스만 가져오기
+                url = driver.current_url
+                print(url)
+                if "news.naver.com" in url:
+                    naver_urls.append(url)
+                else:
+                    pass
+                # 현재 탭 닫기
+                driver.close()
+                # 다시 처음 탭으로 돌아가기
+                driver.switch_to.window(driver.window_handles[0])
 
-            # 현재 탭에 접근
-            driver.switch_to.window(driver.window_handles[1])
-            time.sleep(3) #대기시간 변경 가능
-
-            # 네이버 뉴스만 가져오기
-            url = driver.current_url
-            print(url)
-
-            if "news.naver.com" in url:
-                naver_urls.append(url)
-
-            else:
-                pass
-
-            # 현재 탭 닫기
-            driver.close()
-
-            # 다시 처음 탭으로 돌아가기
-            driver.switch_to.window(driver.window_handles[0])
-  
-        # btnPeriod = driver.find_element_by_link_text(strPeriod_Setting)
-        # btnPeriod.click()
-        # driver.implicitly_wait(3)
-
+            try:
+                btnPage = driver.find_element_by_link_text(str(i + 2))
+                btnPage.click()
+            except Exception as error:
+                print('Page 문제 발생(원하는 Page를 찾을 수 없음)', error)
+                continue
         # ConnectionError방지
         headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102" }
         titles = []
