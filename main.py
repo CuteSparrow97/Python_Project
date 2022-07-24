@@ -4,11 +4,8 @@ import requests
 import json
 
 def test():
-    # 뉴스 검색
-    m_Crawling_News = Crawling_News()
-    # day, week, month, year
-    # Page
-    lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
+    Crawling_Finace2 = Crawling_Finance()
+    Crawling_Finace2.Search_hankyung('삼성전자')
    
 def main():
      # 주식 관련 Crawling
@@ -28,11 +25,12 @@ def main():
         print("list index out of range(Some list not is not sucessful crawling")
 
     # 주식 검색
-    m_Crawling_Finance.Search_StockandCrawling("삼성전자")
+    m_Crawling_Finance.Search_NaverStock("삼성전자")
 
     # 뉴스 검색
-    m_Crawling_News2 = Crawling_News2()
-    lNews = m_Crawling_News2.Search_NaverNews("십자매")
+    m_Crawling_News = Crawling_News()
+    # day, week, month, year # Page
+    lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
 
     # POST
     headers = {'Content-Type' : 'application/json; chearset=utf-8'}

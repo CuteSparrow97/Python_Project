@@ -58,7 +58,7 @@ class Crawling_Finance():
 
     # 종목 검색
     # return df(pandas)
-    def Search_StockandCrawling(self, strStockName):
+    def Search_NaverStock(self, strStockName):
         # Selenium Option 설정
         Selenium_Option = webdriver.ChromeOptions()
         Selenium_Option.add_argument('headless')    # 창 안뜨게 함.
@@ -112,6 +112,28 @@ class Crawling_Finance():
         
         # list 안의 데이터 .text 읽어와서 pandas 를 통해
         # dataframe 만들기.
+    
+    def Search_hankyung(self, strStockName):
+         # Selenium Option 설정
+        Selenium_Option = webdriver.ChromeOptions()
+        Selenium_Option.add_argument('headless')    # 창 안뜨게 함.
+        Selenium_Option.add_argument('window-size=1920x1080')   # 창 크기 조절
+        Selenium_Option.add_argument('disable-gpu')
 
+         # Chromedriver 가져오기.
+        self.strStockName = strStockName
+        strChromedriverName = "chromedriver.exe"
+        strPath = os.getcwd()
+        driver = webdriver.Chrome(strPath + "\\" + strChromedriverName)
+        driver.implicitly_wait(1)
 
+        # Chrome Driver 실행
+        driver.get('http://hkconsensus.hankyung.com/')
+        driver.implicitly_wait(1)
+        Search_Input = driver.find_element_by_id("search_text")
+        Search_Input.send_keys(self.strStockName)   # 종목 적음.
+        Search_Btn = driver.find_element_by_xpath('//*[@id="f_search"]/div/div/a[1]')
+        Search_Btn.click()
+
+        driver.implicitly_wait(1)
 
