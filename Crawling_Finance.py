@@ -3,6 +3,7 @@ import os
 import time
 import pandas as pd
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup as bf
 
 class Crawling_Finance():
@@ -128,12 +129,47 @@ class Crawling_Finance():
         driver.implicitly_wait(1)
 
         # Chrome Driver 실행
-        driver.get('http://hkconsensus.hankyung.com/')
+        driver.get('http://hkconsensus.hankyung.com/apps.analysis/analysis.list?skinType=business')
         driver.implicitly_wait(1)
         Search_Input = driver.find_element_by_id("search_text")
         Search_Input.send_keys(self.strStockName)   # 종목 적음.
-        Search_Btn = driver.find_element_by_xpath('//*[@id="f_search"]/div/div/a[1]')
+        Search_Btn = driver.find_element_by_xpath('//*[@id="f_search"]/div/div[2]/div[2]/a[1]')
         Search_Btn.click()
-
         driver.implicitly_wait(1)
+        
+        # Start 날짜 설정
+        # year
+        StartDateText = driver.find_element_by_id("sdate")
+        StartDateText.click()
+        StartDateBtn = driver.find_element_by_class_name("btn_01")
+        StartDateBtn.click()
+        time.sleep(0.5)
+        YearBtn = Select(driver.find_element_by_class_name("ui-datepicker-year"))
+        YearBtn.select_by_value("2021")
+        time.sleep(0.5)
+        #month
+        YearBtn = Select(driver.find_element_by_class_name("ui-datepicker-month"))
+        YearBtn.select_by_value("5")
+        time.sleep(0.5)
+        #day
+        bIsFind = False
+        table = driver.find_element_by_class_name("ui-datepicker-calendar");
+        tbody = table.find_element_by_tag_name("tbody");
+        trs = tbody.find_elements_by_tag_name("tr");
+        for tr in trs:
+            tds = tr.find_elements_by_tag_name("td");
+            for td in tds:
+                a = td.find_elements_by_tag_name("a");
+                for a_list in a:
+                    if (a_list.text == "3"):
+                        a_list.click()
+                        bIsFind = True
+                        break
+                    if bIsFind:break
+                if bIsFind:break
+            if bIsFind:break
+        
+        a = 1
+
+
 
