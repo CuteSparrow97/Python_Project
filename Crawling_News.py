@@ -76,12 +76,14 @@ class Crawling_News():
                 # 다시 처음 탭으로 돌아가기
                 driver.switch_to.window(driver.window_handles[0])
 
+            # 페이지 없을 경우 대비
             try:
                 btnPage = driver.find_element_by_link_text(str(i + 2))
                 btnPage.click()
             except Exception as error:
                 print('Page 문제 발생(원하는 Page를 찾을 수 없음)', error)
                 continue
+
         # ConnectionError방지
         headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102" }
         titles = []
