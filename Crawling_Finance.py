@@ -193,9 +193,49 @@ class Crawling_Finance():
         liResearchResult_a = ResearchResult_div.find_elements_by_tag_name("a")
         Pages_count = len(liResearchResult_a)
 
+        liDateCreated = []
+        liTitle = []
+        liPrice = []
+        liInvestmentOption = []
+        liWriter = []
+        liSource = []
+        liCompanyInfo = []
+        liChart = []
+        liReportFile = []
+
         for i in range(Pages_count):
             # 한경 컨센서스 페이지 파싱하기.
+            url = driver.current_url
+
+            # ConnectionError방지
+            headers = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102" }
+
+            # Request를 사용하여 해당 url을 사용 친화적으로 만든다.
+            req = requests.get(url, headers=headers)
+
+            # requests_text 함수를 이용하여 현재 url 정보를 html로 받음
+            html = bf(req.text, "html.parser")
+
+            DataContents = html.find("div", id="contents")
+            DataTables = DataContents.find("div", "table_style01")
+            tbody = DataTables.find("tbody")
+            trs = tbody.find_all("tr")
+            for tr in trs:
+                tds = tr.find_all("td")
+                for td in tds:
+                    a = 1
+                    # 0 : Date
+                    # 1 : title
+                    # 2 : price
+                    # 3 : Opinion
+                    # 4 : Writer
+                    # 5 : Source
+                    # 6 : CompanyInfo
+                    # 7 : Chart
+                    # 8 : ReportFile
+
             a = 1
+
 
 
 
