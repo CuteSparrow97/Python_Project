@@ -2,6 +2,7 @@ from asyncio.windows_events import NULL
 import requests
 import os
 import time
+import re
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
@@ -214,7 +215,7 @@ class Crawling_Finance():
             req = requests.get(url, headers=headers)
 
             # requests_text 함수를 이용하여 현재 url 정보를 html로 받음
-            html = bf(req.text, "html.parser")
+            html = bf(req.content.decode('euc-kr','replace'), "html.parser")
 
             DataContents = html.find("div", id="contents")
             DataTables = DataContents.find("div", "table_style01")
@@ -222,17 +223,44 @@ class Crawling_Finance():
             trs = tbody.find_all("tr")
             for tr in trs:
                 tds = tr.find_all("td")
+                i = 0
                 for td in tds:
-                    a = 1
                     # 0 : Date
+                    if i == 0:
+                        liDateCreated.append(td.string)
                     # 1 : title
+                    elif i == 1:
+                        a = td.find("a")
+                        liTitle.append(a.string)
                     # 2 : price
+                    elif i == 2:
+                        liPrice.append(td.string)
                     # 3 : Opinion
+                    elif i == 3:
+                        # Pattern 생성
+                        word = re.sub(r'\s+', '', td.string)
+                        # group() : matching 된 결과 반환
+                        if word:
+                            liInvestmentOption.append(word)
+                        else:
+                            print('No match')
                     # 4 : Writer
+                    elif i == 4:
+                        liWriter.append(td.string)
                     # 5 : Source
+                    elif i == 5:
+                        liSource.append(td.string)
                     # 6 : CompanyInfo
+                    # td안에 div 안에 a 태그안에 있는 링크 주소 담기.
+                    elif i == 6:
+                        liCompanyInfo.append(td.string)
                     # 7 : Chart
+                    elif i == 7:
+                        liChart.append(td.string)
                     # 8 : ReportFile
+                    elif i == 8:
+                        liReportFile.append(td.string)
+                    i += 1
 
             a = 1
 
