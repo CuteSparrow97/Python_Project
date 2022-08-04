@@ -232,37 +232,72 @@ class Crawling_Finance():
                     elif i == 1:
                         a = td.find("a")
                         liTitle.append(a.string)
+
                     # 2 : price
                     elif i == 2:
                         liPrice.append(td.string)
+
                     # 3 : Opinion
                     elif i == 3:
                         # Pattern 생성
+                        # '\s+' 모든 공백 제거(\r\n, 띄어쓰기.. tab)
                         word = re.sub(r'\s+', '', td.string)
                         # group() : matching 된 결과 반환
                         if word:
                             liInvestmentOption.append(word)
                         else:
                             print('No match')
+
                     # 4 : Writer
                     elif i == 4:
                         liWriter.append(td.string)
+
                     # 5 : Source
                     elif i == 5:
                         liSource.append(td.string)
+
                     # 6 : CompanyInfo
                     # td안에 div 안에 a 태그안에 있는 링크 주소 담기.
                     elif i == 6:
-                        liCompanyInfo.append(td.string)
+                        a = td.select("div > a")
+                        #<a href="javascript:_popup_open('https://comp.kisline.com/hi/HI0100M010GE.nice?stockcd=005930&amp;nav=1',1220,800,'yes')"><img alt="기업정보" src="/images/btn_info.gif"/></a>
+                        # https로 시작하고, () : 그룹, .+= : "="까지 찾겠다. \d : 숫자를 찾겠다.
+                        re_1 = re.compile('https(.+=\d)')
+                        word = re_1.search(a[0]["href"])
+                        if word:
+                            liCompanyInfo.append(word.group())
+                        else:
+                            print('No match')
+
                     # 7 : Chart
                     elif i == 7:
-                        liChart.append(td.string)
+                        a = td.select("div > a")
+                        strHK_Link = "http://hkconsensus.hankyung.com/"
+                        strChart_Link = "%s%s" %(strHK_Link, a[0]["href"])
+                        print(strChart_Link)
+                        liChart.append(strChart_Link)
+
                     # 8 : ReportFile
                     elif i == 8:
-                        liReportFile.append(td.string)
+                        a = td.select("div > a")
+                        strHK_Link = "http://hkconsensus.hankyung.com/"
+                        strReport_Link = "%s%s" %(strHK_Link, a[0]["href"])
+                        print(strReport_Link)
+                        liReportFile.append(strReport_Link)
+
                     i += 1
 
             a = 1
+
+        print(liDateCreated)
+        print(liTitle)
+        print(liPrice)
+        print(liInvestmentOption)
+        print(liWriter)
+        print(liSource)
+        print(liCompanyInfo)
+        print(liChart)
+        print(liReportFile)
 
 
 
