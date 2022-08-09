@@ -188,6 +188,7 @@ class Crawling_Finance():
         Search_Btn = driver.find_element_by_xpath('//*[@id="f_search"]/div/div[2]/div[2]/a[1]')
         Search_Btn.click()
         driver.implicitly_wait(1)
+        time.sleep(0.5)
 
         # 현재 검색 결과의 Page가 몇 장인지 판별하는 함수 필요.
         ResearchResult_div = driver.find_element_by_class_name("paging")
@@ -287,17 +288,13 @@ class Crawling_Finance():
 
                     i += 1
 
-            a = 1
+        # DF에서 Title Column 값 가져오고, 내가 검색한 String 글자 개수 센 다음, 
+        # 시작부터 개수 만큼 String - Colmun 값 비교하여 내가 찾는 것인지 비교할 필요가 있음.
 
-        print(liDateCreated)
-        print(liTitle)
-        print(liPrice)
-        print(liInvestmentOption)
-        print(liWriter)
-        print(liSource)
-        print(liCompanyInfo)
-        print(liChart)
-        print(liReportFile)
+        Stock_HK_df = pd.DataFrame({'DateCreated':liDateCreated,'Title':liTitle,'Price':liPrice,'InvestemntOption':liInvestmentOption,'Writer':liWriter,
+        'Source':liSource, 'CompanyInfo':liCompanyInfo,'Chart':liChart, 'ReportFile':liReportFile})
+        Stock_HK_df.to_csv("C:\\Users\\LCH\Desktop\\test_Stock_HK.csv",",","NaN", index=False, encoding='utf-8-sig')
+        #Stock_HK_df.to_csv("C:\\Users\\dlckd\Desktop\\test1.csv",",","NaN", index=False, encoding='utf-8-sig')
 
 
 
