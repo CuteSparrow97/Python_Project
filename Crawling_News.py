@@ -71,6 +71,8 @@ class Crawling_News():
                     naver_urls.append(url)
                 else:
                     pass
+                # 탭이 2번 켜질 때 둘 다 꺼야됨.
+
                 # 현재 탭 닫기
                 driver.close()
                 # 다시 처음 탭으로 돌아가기

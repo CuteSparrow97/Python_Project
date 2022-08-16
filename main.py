@@ -4,8 +4,11 @@ import requests
 import json
 
 def test():
-    Crawling_Finace2 = Crawling_Finance()
-    Crawling_Finace2.Search_hankyung('삼성전자')
+    # Crawling_Finace2 = Crawling_Finance()
+    # Crawling_Finace2.Search_hankyung('삼성전자')
+    m_Crawling_News = Crawling_News()
+    # day, week, month, year # Page
+    lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
    
 def main():
      # 주식 관련 Crawling
@@ -32,15 +35,21 @@ def main():
     # day, week, month, year # Page
     lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
 
-    # POST
+    # Parsing 자료(.csv) POST로 전달하기 위해 준비.
     headers = {'Content-Type' : 'application/json; chearset=utf-8'}
-    csv_file = "C:\\Users\\LCH\Desktop\\test1.csv"
-    files = {'upload_file' : open(csv_file, 'r', encoding='utf-8')}
-    data = {'NEWS' : lNews, 'KOSPI' : m_liKospi, 'KOSDAQ' : m_liKosdaq, 'files' : files}
-    # res = requests.post('http://benefit.run.goorm.io/api/v1/weather', data = json.dumps(data), headers = headers)
+    News_CSV = "C:\\Users\\LCH\Desktop\\test_News.csv"
+    Stock_Naver_CSV = "C:\\Users\\LCH\Desktop\\test_Stock_Naver.csv"
+    Stock_HK_CSV = "C:\\Users\\LCH\Desktop\\test_Stock_HK.csv"
+    News_file = {'upload_file' : open(News_CSV, 'r', encoding='utf-8')}
+    Stock_Naver = {'upload_file' : open(Stock_Naver_CSV, 'r', encoding='utf-8')}
+    Stock_HK = {'upload_file' : open(Stock_HK_CSV, 'r', encoding='utf-8')}
+
+    # POST
+    data = {'NEWS' : lNews, 'KOSPI' : m_liKospi, 'KOSDAQ' : m_liKosdaq, 'News' : News_file,
+    'Stock_HK' : Stock_HK, 'Stock_Naver' : Stock_Naver}
     res = requests.post('http://benefit.run.goorm.io/api/v1/weather', data = json.dumps(data, default=list, indent="\t"), headers = headers)
     print(str(res.status_code) + " | " + res.text)
 
 if __name__ == "__main__":
-    #main()
-    test()
+    main()
+    #test()

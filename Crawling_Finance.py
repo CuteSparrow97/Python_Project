@@ -232,6 +232,10 @@ class Crawling_Finance():
                     # 1 : title
                     elif i == 1:
                         a = td.find("a")
+                        # StockName으로 시작하지 않으면 DateCreated 마지막 삭제 후 Parsing 중지.
+                        if not a.string.startswith(strStockName):
+                            liDateCreated.pop()
+                            break
                         liTitle.append(a.string)
 
                     # 2 : price
@@ -287,9 +291,6 @@ class Crawling_Finance():
                         liReportFile.append(strReport_Link)
 
                     i += 1
-
-        # DF에서 Title Column 값 가져오고, 내가 검색한 String 글자 개수 센 다음, 
-        # 시작부터 개수 만큼 String - Colmun 값 비교하여 내가 찾는 것인지 비교할 필요가 있음.
 
         Stock_HK_df = pd.DataFrame({'DateCreated':liDateCreated,'Title':liTitle,'Price':liPrice,'InvestemntOption':liInvestmentOption,'Writer':liWriter,
         'Source':liSource, 'CompanyInfo':liCompanyInfo,'Chart':liChart, 'ReportFile':liReportFile})
