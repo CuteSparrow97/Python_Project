@@ -4,11 +4,11 @@ import requests
 import json
 
 def test():
-    # Crawling_Finace2 = Crawling_Finance()
-    # Crawling_Finace2.Search_hankyung('삼성전자')
-    m_Crawling_News = Crawling_News()
+    Crawling_Finace2 = Crawling_Finance()
+    Crawling_Finace2.Search_hankyung('삼성전자')
+    # m_Crawling_News = Crawling_News()
     # day, week, month, year # Page
-    lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
+    # lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
    
 def main():
      # 주식 관련 Crawling
@@ -51,5 +51,5 @@ def main():
     print(str(res.status_code) + " | " + res.text)
 
 if __name__ == "__main__":
-    main()
-    #test()
+    #main()
+    test()

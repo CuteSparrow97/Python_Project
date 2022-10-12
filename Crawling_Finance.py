@@ -7,6 +7,7 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup as bf
+from webdriver_manager.chrome import ChromeDriverManager
 
 class Crawling_Finance():
     def __init__(self):
@@ -62,6 +63,8 @@ class Crawling_Finance():
     # 종목 검색
     # return df(pandas)
     def Search_NaverStock(self, strStockName):
+        self.strStockName = strStockName
+        
         # Selenium Option 설정
         Selenium_Option = webdriver.ChromeOptions()
         Selenium_Option.add_argument('headless')    # 창 안뜨게 함.
@@ -69,11 +72,8 @@ class Crawling_Finance():
         Selenium_Option.add_argument('disable-gpu')
 
         # Chromedriver 가져오기.
-        self.strStockName = strStockName
-        strChromedriverName = "chromedriver.exe"
-        strPath = os.getcwd()
-        driver = webdriver.Chrome(strPath + "\\" + strChromedriverName)
-        driver.implicitly_wait(1)
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver.implicitly_wait(3)
 
         # Chrome Driver 실행
         driver.get('https://finance.naver.com/sise/')
@@ -117,18 +117,17 @@ class Crawling_Finance():
         # dataframe 만들기.
     
     def Search_hankyung(self, strStockName):
+        self.strStockName = strStockName
+
          # Selenium Option 설정
         Selenium_Option = webdriver.ChromeOptions()
         Selenium_Option.add_argument('headless')    # 창 안뜨게 함.
         Selenium_Option.add_argument('window-size=1920x1080')   # 창 크기 조절
         Selenium_Option.add_argument('disable-gpu')
 
-         # Chromedriver 가져오기.
-        self.strStockName = strStockName
-        strChromedriverName = "chromedriver.exe"
-        strPath = os.getcwd()
-        driver = webdriver.Chrome(strPath + "\\" + strChromedriverName)
-        driver.implicitly_wait(1)
+        # Chromedriver 가져오기.
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver.implicitly_wait(3)
 
         # Chrome Driver 실행
         driver.get('http://hkconsensus.hankyung.com/apps.analysis/analysis.list?skinType=business')

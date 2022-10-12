@@ -5,12 +5,13 @@ import time
 import pandas as pd
 import re
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup as bf
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 class Crawling_News():
-    def Search_NaverNews(self, strKeyWard, strPeriod, nPage):
-        self.strKeyWard = strKeyWard
+    def Search_NaverNews(self, strKeyWord, strPeriod, nPage):
+        self.strKeyWord = strKeyWord
         self.strPeriod = strPeriod
         self.nPage = nPage
 
@@ -21,13 +22,11 @@ class Crawling_News():
         Selenium_Option.add_argument('disable-gpu')
 
         # Chromedriver 가져오기.
-        strChromedriverName = "chromedriver.exe"
-        strPath = os.getcwd()
-        driver = webdriver.Chrome(strPath + "\\" + strChromedriverName)
+        driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.implicitly_wait(3)
 
         # Chrome Driver 실행
-        url = "https://search.naver.com/search.naver?where=news&sm=tab_pge&query=" + strKeyWard + "&start=" + "1"
+        url = "https://search.naver.com/search.naver?where=news&sm=tab_pge&query=" + strKeyWord + "&start=" + "1"
         driver.get(url)
         driver.implicitly_wait(3)
 
