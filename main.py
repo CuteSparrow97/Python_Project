@@ -1,11 +1,14 @@
 from Crawling_Finance import Crawling_Finance
 from Crawling_News import Crawling_News
+from Crawling_Weather import Crawling_Weather
 import requests
 import json
 
 def test():
-    Crawling_Finace2 = Crawling_Finance()
-    Crawling_Finace2.Search_hankyung('삼성전자')
+    #Crawling_Finace2 = Crawling_Finance()
+    #Crawling_Finace2.Search_hankyung('삼성전자')
+    m_Crawling_Weather = Crawling_Weather()
+    m_Crawling_Weather.SearchWeather("서울시", "강남구", "삼성동")
     # m_Crawling_News = Crawling_News()
     # day, week, month, year # Page
     # lNews = m_Crawling_News.Search_NaverNews('코로나', 'week', 2)
