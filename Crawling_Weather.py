@@ -1,15 +1,7 @@
-from asyncio.windows_events import NULL
-from typing import Text
-import requests
-import os
-import time
 import re
 from datetime import datetime
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.keys import Keys
-from bs4 import BeautifulSoup as bf
 from webdriver_manager.chrome import ChromeDriverManager
 
 class Crawling_Weather():
@@ -47,13 +39,20 @@ class Crawling_Weather():
 
         # 현재 시각 가져오기
         now = datetime.now()
-        liHour.append(now.hour)
+        nHour = now.hour
+        strHour = ""
+        if (nHour < 10):
+            strHour = "0"+ str(nHour) + "시"
+        else:
+            strHour = nHour + "시"
+        liHour.append(strHour)
 
         # 현재 온도 가져오기
 
 
         # 현재 시각 날씨 (현재 시각이 몇시인지 안나와있음)
         strNowWeather = driver.find_element_by_class_name("weather_main").find_elements_by_class_name("blind")[0].text
+        liWeather.append(strNowWeather)
         print(strNowWeather)
 
         # 현재 시각 습도
@@ -110,4 +109,6 @@ class Crawling_Weather():
 
         # 시간대 별 습도 파싱
 
-        a = 1
+        Weather_df = pd.DataFrame({'Hour':liHour,'Weather': liWeather})
+        Weather_df.to_csv("C:\\Users\\LCH\Desktop\\test_Weather.csv",",","NaN", index=False, encoding='utf-8-sig')
+        #Stock_HK_df.to_csv("C:\\Users\\dlckd\Desktop\\test1.csv",",","NaN", index=False, encoding='utf-8-sig')
